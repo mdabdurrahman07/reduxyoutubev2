@@ -27,7 +27,7 @@ export default function Video() {
     content = (
       <>
         <Player title={video?.title} link={video?.link}/>
-        <Description title={video?.title} date={video?.date} description={video?.description}/>
+        <Description title={video?.title} date={video?.date} description={video?.description} id={video?.id}/>
       </>
     );
   }
@@ -40,7 +40,7 @@ export default function Video() {
           </div>
 
           {video?.id ? (
-            <RelatedVideos />
+            <RelatedVideos title={video?.title}/>
           ) : isLoading ? (
             <>
               <RelatedVideoLoader />
