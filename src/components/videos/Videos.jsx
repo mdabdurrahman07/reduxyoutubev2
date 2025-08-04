@@ -1,15 +1,26 @@
-import Video from "./Video";
+import { useGetVideosQuery } from "../../redux/features/api/apiSlice";
+import VideoLoader from "../../ui/loaders/VideoLoader";
+import Error from "../../ui/Error";
+import Video from "./Video"
 
 export default function Videos() {
-    return (
-        <>
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-        </>
+  const { data: videos, isLoading, isError, error } = useGetVideosQuery();
+  let content = null;
+  if (isLoading) {
+    content = (
+      <>
+        <VideoLoader />
+        <VideoLoader />
+        <VideoLoader />
+        <VideoLoader />
+      </>
     );
+  } else if (!isLoading && isError) {
+    content = <Error message={error} />;
+  } else if (!isLoading && !isError && videos.length === 0) {
+    content = <Error message="No videos found" />;
+  } else {
+    content = videos.map((video) => <Video key={video?.id} video={video} />);
+  }
+  return <>{content}</>;
 }
