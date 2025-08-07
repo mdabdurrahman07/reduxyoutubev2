@@ -18,7 +18,14 @@ export const apiSlice = createApi({
         return queryString;
       },
     }),
+    postVideo : build.mutation({
+      query: (data) =>({
+        url:'videos',
+        body: data,
+        method:'POST'
+      })
+    })
   }),
 });
 
-export const { useGetVideosQuery, useGetVideoQuery, useGetRelatedVideosQuery } = apiSlice;
+export const { useGetVideosQuery, useGetVideoQuery, useGetRelatedVideosQuery , usePostVideoMutation} = apiSlice;
