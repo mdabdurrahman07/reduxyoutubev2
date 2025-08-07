@@ -1,7 +1,18 @@
+import { useGetVideosQuery } from "../../redux/features/api/apiSlice";
+import Loading from "../Loading/Loading";
 import Form from "./Form";
 
 
 export default function EditVideo() {
+    const { data: videos, isLoading, isError, error } = useGetVideosQuery();
+      let content = null;
+      if (isLoading) {
+        content = <Loading/>
+      } else if (!isLoading && isError) {
+        content = <Error message={error} />;
+      } else {
+        content = <Form videos={videos}/>
+      }
     return (
         <div className="max-w-7xl mx-auto px-5 lg:px-0">
             <div className="w-full">
@@ -14,7 +25,7 @@ export default function EditVideo() {
                     </p>
                 </div>
                 <div className="mt-5 md:mt-0 md:col-span-2">
-                    <Form />
+                    {content}
                 </div>
             </div>
         </div>
