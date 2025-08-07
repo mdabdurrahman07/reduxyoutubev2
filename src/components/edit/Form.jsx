@@ -4,7 +4,8 @@ import TextInput from "../../ui/TextInput";
 import { useEditVideoMutation } from "../../redux/features/api/apiSlice";
 import Success from "../../ui/Success";
 
-export default function Form({ videos }) {
+export default function Form({ video }) {
+  console.log(video);
   const {
     id,
     title: initialTitle,
@@ -15,8 +16,8 @@ export default function Form({ videos }) {
     date: initialDate,
     thumbnail: initialThumbnail,
     duration: initialDuration,
-  } = videos || {};
-  const [editVideo, { isLoading, isSuccess }] = useEditVideoMutation();
+  } = video || {};
+  const [editVideo, { isLoading, isSuccess }] = useEditVideoMutation(id);
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
   const [author, setAuthor] = useState(initialAuthor);
@@ -25,16 +26,6 @@ export default function Form({ videos }) {
   const [views, setViews] = useState(initialViews);
   const [link, setLink] = useState(initialLink);
   const [thumbnail, setThumbnail] = useState(initialThumbnail);
-  const formReset = () => {
-    setTitle("");
-    setDescription("");
-    setAuthor("");
-    setDate("");
-    setDuration("");
-    setViews("");
-    setLink("");
-    setThumbnail("");
-  };
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -51,7 +42,6 @@ export default function Form({ videos }) {
         thumbnail,
       },
     });
-    formReset();
   };
   return (
     <form method="PUT" onSubmit={handleUpdate}>
